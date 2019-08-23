@@ -36,7 +36,7 @@ let app4 = new PIXI.Application({
 let canvas4 = document.getElementById("canvas4");
 canvas4.appendChild(app4.view);
 app4.renderer.backgroundColor = 0x000000;
-app4.stage.interactive = false;4
+app4.stage.interactive = false;
 
 let app5 = new PIXI.Application({
   width: WIDTH,
@@ -47,11 +47,21 @@ canvas5.appendChild(app5.view);
 app5.renderer.backgroundColor = 0x000000;
 app5.stage.interactive = false;
 
+let app6 = new PIXI.Application({
+  width: WIDTH,
+  height: HEIGHT
+});
+let canvas6 = document.getElementById("canvas6");
+canvas6.appendChild(app6.view);
+app6.renderer.backgroundColor = 0x000000;
+app6.stage.interactive = false;
+
 let bg,
   bg2,
   bg3,
   bg4,
   bg5,
+  bg6,
   umbrella,
   umbrella2,
   umbrella3,
@@ -65,7 +75,10 @@ let bg,
   umbrella11,
   umbrella12,
   umbrella13,
-  umbrella14;
+  umbrella14,
+  umbrella15,
+  umbrella16,
+  umbrella17;
 let elapsedTime = 0;
 
 let container_bg = new PIXI.Container();
@@ -91,6 +104,18 @@ container_bg4.x = 0;
 container_bg4.y = 0;
 container_bg4.interactive = false;
 app4.stage.addChild(container_bg4);
+
+let container_bg5 = new PIXI.Container();
+container_bg5.x = 0;
+container_bg5.y = 0;
+container_bg5.interactive = false;
+app5.stage.addChild(container_bg5);
+
+let container_bg6 = new PIXI.Container();
+container_bg6.x = 0;
+container_bg6.y = 0;
+container_bg6.interactive = false;
+app6.stage.addChild(container_bg6);
 
 let container = new PIXI.Container();
 container.width = 384;
@@ -140,7 +165,17 @@ container5.y = 0;
 container5.pivot.x = 0;
 container5.pivot.y = 0;
 container5.interactive = false;
-app4.stage.addChild(container4);
+app5.stage.addChild(container5);
+
+let container6 = new PIXI.Container();
+container6.width = 384;
+container6.height = 384;
+container6.x = 0;
+container6.y = 0;
+container6.pivot.x = 0;
+container6.pivot.y = 0;
+container6.interactive = false;
+app6.stage.addChild(container6);
 
 // asset
 const ASSET_BG = "images/pic_bg_floor.jpg";
@@ -185,9 +220,14 @@ function onAssetsLoaded(loader, res) {
   bg4.y = 0;
 
   bg5 = new PIXI.Sprite(res.data_bg.texture);
-  container_bg4.addChild(bg5);
+  container_bg5.addChild(bg5);
   bg5.x = 0;
   bg5.y = 0;
+
+  bg6 = new PIXI.Sprite(res.data_bg.texture);
+  container_bg6.addChild(bg6);
+  bg6.x = 0;
+  bg6.y = 0;
 
   // umbrella
   umbrella = new PIXI.Sprite(res.data_umbrella.texture);
@@ -209,7 +249,7 @@ function onAssetsLoaded(loader, res) {
   umbrella2.anchor.y = 0.5;
   umbrella2.tint = 0x669966;
 
-  // 
+  //
   umbrella3 = new PIXI.Sprite(res.data_umbrella.texture);
   container2.addChild(umbrella3);
   umbrella3.x = 50;
@@ -301,7 +341,7 @@ function onAssetsLoaded(loader, res) {
 
   //
   umbrella12 = new PIXI.Sprite(res.data_umbrella.texture);
-  container4.addChild(umbrella12);
+  container5.addChild(umbrella12);
   umbrella12.x = 50;
   umbrella12.y = 100;
   umbrella12.scale.set(0.5, 0.5);
@@ -311,7 +351,7 @@ function onAssetsLoaded(loader, res) {
   umbrella12.tint = 0x990066;
 
   umbrella13 = new PIXI.Sprite(res.data_umbrella.texture);
-  container4.addChild(umbrella13);
+  container5.addChild(umbrella13);
   umbrella13.x = 50;
   umbrella13.y = 150;
   umbrella13.scale.set(0.5, 0.5);
@@ -321,13 +361,43 @@ function onAssetsLoaded(loader, res) {
   umbrella13.tint = 0x000000;
 
   umbrella14 = new PIXI.Sprite(res.data_umbrella.texture);
-  container4.addChild(umbrella14);
+  container5.addChild(umbrella14);
   umbrella14.x = 50;
   umbrella14.y = 200;
   umbrella14.scale.set(0.5, 0.5);
   umbrella14.interactive = false;
   umbrella14.anchor.x = 0.5;
   umbrella14.anchor.y = 0.5;
+
+  //
+  umbrella15 = new PIXI.Sprite(res.data_umbrella.texture);
+  container6.addChild(umbrella15);
+  umbrella15.x = 50;
+  umbrella15.y = 100;
+  umbrella15.scale.set(0.5, 0.5);
+  umbrella15.interactive = false;
+  umbrella15.anchor.x = 0.5;
+  umbrella15.anchor.y = 0.5;
+  umbrella15.tint = 0x990066;
+
+  umbrella16 = new PIXI.Sprite(res.data_umbrella.texture);
+  container6.addChild(umbrella16);
+  umbrella16.x = 50;
+  umbrella16.y = 150;
+  umbrella16.scale.set(0.5, 0.5);
+  umbrella16.interactive = false;
+  umbrella16.anchor.x = 0.5;
+  umbrella16.anchor.y = 0.5;
+  umbrella16.tint = 0x000000;
+
+  umbrella17 = new PIXI.Sprite(res.data_umbrella.texture);
+  container6.addChild(umbrella17);
+  umbrella17.x = 50;
+  umbrella17.y = 200;
+  umbrella17.scale.set(0.5, 0.5);
+  umbrella17.interactive = false;
+  umbrella17.anchor.x = 0.5;
+  umbrella17.anchor.y = 0.5;
 
   start();
 }
@@ -348,7 +418,8 @@ function start() {
 
   // add a label named scene1 at an exact time of 2-seconds into the timeline
   // 2秒後の正確な時間にscene1という名前のラベルをタイムラインに追加します
-  tl2.add("scene1", 2)
+  tl2
+    .add("scene1", 2)
 
     // add tween at scene1 label
     // "scene1"にtweenを追加
@@ -361,40 +432,56 @@ function start() {
 
 /**
  * No position: Direct Sequence
+ * 位置パラメータが指定されていない場合、すべてのトゥイーンは直接連続して実行されます。
  */
 function startDirect() {
   let tl = new TimelineMax();
-  tl.to(umbrella3, 1, {x:300})
-    .to(umbrella4, 1, {x:300})
-    .to(umbrella5, 1 ,{x:300})
+  tl.to(umbrella3, 1, { x: 300 })
+    .to(umbrella4, 1, { x: 300 })
+    .to(umbrella5, 1, { x: 300 });
 }
 
 /**
  * Positive Relative: Gaps / Delays
+ * 前のアニメーションが終了してからX秒後にトゥイーンを配置するには、正の相対値（ "+ = X"）を使用します。
  */
 function startGap() {
   let tl = new TimelineMax();
-  tl.to(umbrella6, 1, {x:300})
-    .to(umbrella7, 1, {x:300}, "+=1")
-    .to(umbrella8, 1 ,{x:300}, "+=1")
+  tl.to(umbrella6, 1, { x: 300 })
+    .to(umbrella7, 1, { x: 300 }, "+=1")
+    .to(umbrella8, 1, { x: 300 }, "+=1");
 }
 
 /**
  * Negative Relative: Overlap
+ * 負の相対値（ "-= X"）を使用して、前のアニメーションが終了するX秒前にトゥイーンを配置します。
  */
 function startOverlap() {
   let tl = new TimelineMax();
-  tl.to(umbrella9, 2, {x:300})
-    .to(umbrella10, 2, {x:300}, "-=1")
-    .to(umbrella11, 2 ,{x:300}, "-=1")
+  tl.to(umbrella9, 2, { x: 300 })
+    .to(umbrella10, 2, { x: 300 }, "-=1")
+    .to(umbrella11, 2, { x: 300 }, "-=1");
 }
 
 /**
  * Absolute: Anywhere
+ * 絶対値（数値）を使用して、トゥイーンを開始する正確な時間を秒単位で指定します。
  */
 function startAnywhere() {
   let tl = new TimelineMax();
-  tl.to(umbrella12, 2, {x:300})
-    .to(umbrella13, 2, {x:300}, "-=1")
-    .to(umbrella14, 2 ,{x:300}, "-=1")
+  tl.to(umbrella12, 4, { x: 300 })
+    .to(umbrella13, 3, { x: 300 }, 1)
+    .to(umbrella14, 2, { x: 300 }, 2);
+}
+
+/**
+ *
+ * ラベル（「文字列」）を使用して、トゥイーンを配置する場所を指定します。
+ */
+function startLabel() {
+  let tl = new TimelineMax();
+  tl.to(umbrella15, 1, { x: 300 })
+    .add("blackblueMove", "+=1") // タイムラインの1秒後にラベルを追加
+    .to(umbrella16, 2, { x: 300, rotation: 360 }, "blackblueMove")
+    .to(umbrella17, 2, { x: 300, rotation: 360 }, "blackblueMove+=0.5");
 }
